@@ -1,11 +1,14 @@
 $(document).ready(function() {
-    function getWeatherData() {
+ getWeatherData();
+ setInterval(getWeatherData, 3600000);
+});
+ 
+function getWeatherData() {
       $.getJSON('conf.json', function(data) {
         var cityName = data.city;
-  
         var apiKey = "d00a9f8c913e0a686b7b522bc55d093b";
-        var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&APPID=' + apiKey;
-  
+        var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?lan=fr&q=' + cityName + '&APPID=' + apiKey + "&units=metric";
+
         $.ajax({
           url: apiUrl,
           method: 'GET',
@@ -17,7 +20,7 @@ $(document).ready(function() {
             var weatherHtml = '<h2>' + cityName + '</h2>';
             weatherHtml += '<p><strong>Weather:</strong> ' + weatherData.main + '</p>';
             weatherHtml += '<p><strong>Description:</strong> ' + weatherData.description + '</p>';
-            weatherHtml += '<p><strong>Temperature:</strong> ' + temperature + ' K</p>';
+            weatherHtml += '<p><strong>Temperature:</strong> ' + temperature + ' C</p>';
   
             $('#weather').html(weatherHtml);
           },
@@ -28,7 +31,3 @@ $(document).ready(function() {
         });
       });
     }
-  
-    
-    setInterval(getWeatherData, 3600000);
-  });
